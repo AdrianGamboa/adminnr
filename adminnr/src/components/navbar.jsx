@@ -1,12 +1,12 @@
 import React from 'react'
-import logo from './../assets/images/nrlogo.png';
 import "../styles/navbar.css";
 import { useState, useEffect } from 'react';
+import logo from './../assets/images/nrlogo.png';
 import ListIcon from '@mui/icons-material/List';
+
 import { useLocation } from 'react-router-dom';
 
 function Navbar() {
-
     const [isNavExpanded, setIsNavExpanded] = useState(false);
     const [activeId, setActiveId] = useState(1);
     const location = useLocation();
@@ -29,6 +29,19 @@ function Navbar() {
         }
     }, [location]);
 
+    function contentVisibility() {
+        const element = document.getElementById("page-content");
+
+        if (!isNavExpanded) {
+            element.style.pointerEvents = 'none';
+            element.style.opacity = '0';
+            element.style.background = '#CCC';
+        } else {
+            element.style.pointerEvents = 'all';
+            element.style.opacity = '1';
+            element.style.background = 'white';
+        }
+    }
 
     return (
         <nav className="navigationp">
@@ -37,18 +50,19 @@ function Navbar() {
             </div>
             <button className="hamburgerp"
                 onClick={() => {
-                    setIsNavExpanded(!isNavExpanded)
+                    setIsNavExpanded(!isNavExpanded);
+                    contentVisibility();
+
                 }}>
                 <i><ListIcon fontSize='large' sx={{ color: 'white' }} /></i>
             </button>
-            <div
-                className={
-                    isNavExpanded ? "navigationp-menup expandedp" : "navigationp-menup"
-                }
-            >
-                <ul className='ulp'>                    
+            <div className={isNavExpanded ? "navigationp-menup expandedp" : "navigationp-menup"}>
+                <ul className='ulp'>
                     <li id='1' className={`${activeId === 1 ? "active" : ""}`} onClick={() => setActiveId(1)}>
-                        <a href="/inventory">Inventario</a>
+                        <a href="/inventory">Productos</a>
+                    </li>
+                    <li id='2' className={`${activeId === 2 ? "active" : ""}`} onClick={() => setActiveId(2)}>
+                        <a href="/sells">Servicios</a>
                     </li>
                     <li id='2' className={`${activeId === 2 ? "active" : ""}`} onClick={() => setActiveId(2)}>
                         <a href="/sells">Ventas</a>

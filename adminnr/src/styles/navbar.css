@@ -11,30 +11,31 @@
 }
 
 .brand-namep {
-  text-decoration: none ;
-  color: black ;
-  font-size: 1.3rem ;
-  margin-left: 1rem ;
+  text-decoration: none;
+  color: black;
+  font-size: 1.3rem;
+  margin-left: 1rem;
 }
 
 .navigationp-menup {
-  margin-left: auto ;
+  margin-left: auto;
 }
 
 .navigationp-menup .ulp {
-  display: flex;/**/
+  display: flex;
+  /**/
   padding: 0;
 }
 
 .navigationp-menup li {
-  list-style-type: none ;
-  margin: 0 1rem ;
+  list-style-type: none;
+  margin: 0 1rem;
 }
 
 .navigationp-menup li a {
-  text-decoration: none ;
-  display: block ;
-  width: 100% ;
+  text-decoration: none;
+  display: block;
+  width: 100%;
 }
 
 .hamburgerp {
@@ -52,6 +53,7 @@
   transform: translateY(-50%);
   display: none;
 }
+
 .hamburgerp i {
   line-height: 0px;
 }
@@ -65,6 +67,7 @@
     display: block;
   }
 }
+
 @media screen and (max-width: 768px) {
   .navigationp-menup .ulp {
     display: none;
@@ -78,23 +81,24 @@
     left: 0;
     flex-direction: column;
     width: 100%;
-    height: calc(106.5vh); /*Original: height: calc(100vh - 77px); */
+    height: calc(106.5vh);
+    /*Original: height: calc(100vh - 77px); */
     background-color: white;
   }
 
   .navigationp-menup li {
-    text-align: center ;
-    margin: 0 ;
+    text-align: center;
+    margin: 0;
   }
 
   .navigationp-menup li a {
-    color: black ;
-    width: 100% ;
-    padding: 1.5rem 0 ;
+    color: black;
+    width: 100%;
+    padding: 1.5rem 0;
   }
 
   .navigationp-menup li:hover {
-    background-color: #eee ;
+    background-color: #eee;
   }
 }
 
@@ -102,7 +106,8 @@
   .navigationp-menup.expandedp .ulp {
     display: flex;
   }
+
   .navigationp-menup.expandedp li a {
-    border-bottom: solid 1px rgb(166, 158, 158);    
+    border-bottom: solid 1px rgb(166, 158, 158);
   }
 }
