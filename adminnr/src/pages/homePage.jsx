@@ -7,25 +7,25 @@ import InventoryPage from './inventoryPage'
 
 
 function HomePage() {
-  return (    
-    <div>
-        <Navbar/>   
-        <Header/>
-        <div id="main">
-        <div className="row">
-            <div className="col s12">
-                <div className="container">
-                    <div className="section">
-                        <InventoryPage/>
+    return (
+        <div>
+            <Navbar />
+            <Header />
+            <div id="main">
+                <div className="row">
+                    <div className="col s12">
+                        <div className="container">
+                            <div className="section">
+                                <InventoryPage />
+                            </div>
+                        </div>
+                        <div className="content-overlay"></div>
                     </div>
                 </div>
-                <div className="content-overlay"></div>
+                <Footer />
             </div>
         </div>
-        <Footer/>
-    </div>
-    </div>
-  )
+    )
 }
 
 export default HomePage

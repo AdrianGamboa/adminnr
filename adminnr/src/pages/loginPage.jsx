@@ -29,7 +29,10 @@ function LoginPage() {
         e.preventDefault();
         setUser('');
         setPwd('');
-        navigate("/home");
+        console.log('HACE LOGIN');
+        window.location.href="../home";
+        // navigate("/home");
+        // navigate('../home', { replace: true })
     }
 
     return (
@@ -45,7 +48,7 @@ function LoginPage() {
                             <h4 className="center">¡Bienvenido!</h4>
                             <div className='center'><img src={logo} className="App-logo" alt="logo" width={250} /></div>
                             <div className="row">
-                                <form className="col s12 m12" onSubmit={handleSubmit}>
+                                <form action="/home" method="get" className="col s12 m12" onSubmit={handleSubmit}>
                                     <div className="row">
                                         <div className="input-field col s12 m12">
                                             <i className="prefix"><AccountCircleIcon fontSize='large' /></i>
@@ -74,7 +77,7 @@ function LoginPage() {
                                         </div>
 
                                         <div className='center'>
-                                            <button className="btn waves-effect waves-light center" type="submit" name="action" style={{ marginTop: '20px' }}>
+                                            <button className="btn waves-effect waves-light center"  name="action" style={{ marginTop: '20px' }}>
                                                 Iniciar sesión
                                                 <i className="fa fa-sign-in right"></i>
                                             </button>

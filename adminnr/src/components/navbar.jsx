@@ -13,21 +13,21 @@ function Navbar() {
     const location = useLocation();
 
     useEffect(() => {
-        if (location.pathname === '/inventory') {
+        if (location.pathname === '/home') {
             setActiveId(1);
+        }
+        else if (location.pathname === '/inventory') {
+            setActiveId(2);
         }
         else if (location.pathname === '/sells') {
             setActiveId(2);
         }
         else if (location.pathname === '/clients') {
-            setActiveId(3);
-        }
-        else if (location.pathname === '/reports') {
             setActiveId(4);
         }
-        else if (location.pathname === '/home') {
+        else if (location.pathname === '/reports') {
             setActiveId(5);
-        }
+        }        
     }, [location]);
 
     function contentVisibility() {
@@ -43,21 +43,20 @@ function Navbar() {
             element.style.background = 'white';
         }
     }
-
     return (
         <aside className="sidenav-main nav-expanded nav-lock nav-collapsible sidenav-dark gradient-45deg-deep-purple-blue sidenav-gradient sidenav-active-rounded">
             <div className="brand-sidebar">
                 <h1 className="logo-wrapper"><a className="brand-logo darken-1 center" href="/home"><img className="hide-on-med-and-down " src={logo} alt="Logo" /></a></h1>
             </div>
-            <ul className="sidenav sidenav-collapsible leftside-navigation collapsible sidenav-fixed menu-shadow" id="slide-out" data-menu="menu-navigation" data-collapsible="menu-accordion">
+            <ul className="sidenav sidenav-collapsible leftside-navigation collapsible sidenav-fixed menu-shadow" id="slide-out" data-menu="menu-navigation" data-collapsible="menu-accordion" style={{paddingTop: '15px'}}>
                 {/* Home btn */}
-                <li className="bold"><a className="waves-effect waves-cyan " href="/home"><i className="material-icons">home</i><span className="menu-title" data-i18n="Home">Inicio</span></a>
+                <li id='1' className={`${activeId === 1 ? "bold active" : "bold"}`}><a className={`${activeId === 1 ? "waves-effect waves-cyan active" : "waves-effect waves-cyan"}`} href="/home"><i className="material-icons">home</i><span className="menu-title" data-i18n="Home">Inicio</span></a>
                 </li>
 
                 <li className="navigation-header"><a className="navigation-header-text">Applications</a><i className="navigation-header-icon material-icons">more_horiz</i>
                 </li>
 
-                <li className="bold"><a className="waves-effect waves-cyan " href="app-email.html"><i className="material-icons">mail_outline</i><span className="menu-title" data-i18n="Mail">Mail</span><span className="badge new badge pill pink accent-2 float-right mr-2">5</span></a>
+                <li id='2' className={`${activeId === 2 ? "bold active" : "bold"}`}><a className={`${activeId === 2 ? "waves-effect waves-cyan active" : "waves-effect waves-cyan"}`} href="/sells"><i className="material-icons">shopping_cart</i><span className="menu-title" data-i18n="Sells">Ventas</span></a>
                 </li>
                 <li className="bold"><a className="waves-effect waves-cyan " href="app-chat.html"><i className="material-icons">chat_bubble_outline</i><span className="menu-title" data-i18n="Chat">Chat</span></a>
                 </li>
@@ -170,176 +169,11 @@ function Navbar() {
                             </li>
                         </ul>
                     </div>
+                </li>                                
+                
+                <li className="navigation-header"><a className="navigation-header-text">Configuraciones </a><i className="navigation-header-icon material-icons">more_horiz</i>
                 </li>
-                <li className="navigation-header"><a className="navigation-header-text">User Interface </a><i className="navigation-header-icon material-icons">more_horiz</i>
-                </li>
-                <li className="bold"><a className="collapsible-header waves-effect waves-cyan " href="#!"><i className="material-icons">cast</i><span className="menu-title" data-i18n="Cards">Cards</span></a>
-                    <div className="collapsible-body">
-                        <ul className="collapsible collapsible-sub" data-collapsible="accordion">
-                            <li><a href="cards-basic.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Cards">Cards</span></a>
-                            </li>
-                            <li><a href="cards-advance.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Cards Advance">Cards Advance</span></a>
-                            </li>
-                            <li><a href="cards-extended.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Cards Extended">Cards Extended</span></a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li className="bold"><a className="collapsible-header waves-effect waves-cyan " href="#!"><i className="material-icons">invert_colors</i><span className="menu-title" data-i18n="CSS">CSS</span></a>
-                    <div className="collapsible-body">
-                        <ul className="collapsible collapsible-sub" data-collapsible="accordion">
-                            <li><a href="css-typography.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Typograpy">Typograpy</span></a>
-                            </li>
-                            <li><a href="css-color.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Color">Color</span></a>
-                            </li>
-                            <li><a href="css-grid.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Grid">Grid</span></a>
-                            </li>
-                            <li><a href="css-helpers.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Helpers">Helpers</span></a>
-                            </li>
-                            <li><a href="css-media.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Media">Media</span></a>
-                            </li>
-                            <li><a href="css-pulse.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Pulse">Pulse</span></a>
-                            </li>
-                            <li><a href="css-sass.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Sass">Sass</span></a>
-                            </li>
-                            <li><a href="css-shadow.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Shadow">Shadow</span></a>
-                            </li>
-                            <li><a href="css-animations.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Animations">Animations</span></a>
-                            </li>
-                            <li><a href="css-transitions.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Transitions">Transitions</span></a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li className="bold"><a className="collapsible-header waves-effect waves-cyan " href="#!"><i className="material-icons">photo_filter</i><span className="menu-title" data-i18n="Basic UI">Basic UI</span></a>
-                    <div className="collapsible-body">
-                        <ul className="collapsible collapsible-sub" data-collapsible="accordion">
-                            <li><a className="collapsible-header waves-effect waves-cyan" href="#!"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Buttons">Buttons</span></a>
-                                <div className="collapsible-body">
-                                    <ul className="collapsible" data-collapsible="accordion">
-                                        <li><a href="ui-basic-buttons.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Basic">Basic</span></a>
-                                        </li>
-                                        <li><a href="ui-extended-buttons.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Extended">Extended</span></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li><a href="ui-icons.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Icons">Icons</span></a>
-                            </li>
-                            <li><a href="ui-alerts.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Alerts">Alerts</span></a>
-                            </li>
-                            <li><a href="ui-badges.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Badges">Badges</span></a>
-                            </li>
-                            <li><a href="ui-breadcrumbs.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Breadcrumbs">Breadcrumbs</span></a>
-                            </li>
-                            <li><a href="ui-chips.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Chips">Chips</span></a>
-                            </li>
-                            <li><a href="ui-collections.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Collections">Collections</span></a>
-                            </li>
-                            <li><a href="ui-navbar.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Navbar">Navbar</span></a>
-                            </li>
-                            <li><a href="ui-pagination.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Pagination">Pagination</span></a>
-                            </li>
-                            <li><a href="ui-preloader.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Preloader">Preloader</span></a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li className="bold"><a className="collapsible-header waves-effect waves-cyan " href="#!"><i className="material-icons">settings_brightness</i><span className="menu-title" data-i18n="Advanced UI">Advanced UI</span></a>
-                    <div className="collapsible-body">
-                        <ul className="collapsible collapsible-sub" data-collapsible="accordion">
-                            <li><a href="advance-ui-carousel.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Carousel">Carousel</span></a>
-                            </li>
-                            <li><a href="advance-ui-collapsibles.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Collapsibles">Collapsibles</span></a>
-                            </li>
-                            <li><a href="advance-ui-toasts.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Toasts">Toasts</span></a>
-                            </li>
-                            <li><a href="advance-ui-tooltip.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Tooltip">Tooltip</span></a>
-                            </li>
-                            <li><a href="advance-ui-dropdown.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Dropdown">Dropdown</span></a>
-                            </li>
-                            <li><a href="advance-ui-feature-discovery.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Discovery">Discovery</span></a>
-                            </li>
-                            <li><a href="advance-ui-media.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Media">Media</span></a>
-                            </li>
-                            <li><a href="advance-ui-modals.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Modals">Modals</span></a>
-                            </li>
-                            <li><a href="advance-ui-scrollspy.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Scrollspy">Scrollspy</span></a>
-                            </li>
-                            <li><a href="advance-ui-tabs.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Tabs">Tabs</span></a>
-                            </li>
-                            <li><a href="advance-ui-waves.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Waves">Waves</span></a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li className="bold"><a className="collapsible-header waves-effect waves-cyan " href="#!"><i className="material-icons">add_to_queue</i><span className="menu-title" data-i18n="Extra Components">Extra Components</span></a>
-                    <div className="collapsible-body">
-                        <ul className="collapsible collapsible-sub" data-collapsible="accordion">
-                            <li><a href="extra-components-range-slider.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Range Slider">Range Slider</span></a>
-                            </li>
-                            <li><a href="extra-components-sweetalert.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Sweetalert">Sweetalert</span></a>
-                            </li>
-                            <li><a href="extra-components-nestable.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Nestable">Nestable</span></a>
-                            </li>
-                            <li><a href="extra-components-treeview.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Treeview">Treeview</span></a>
-                            </li>
-                            <li><a href="extra-components-ratings.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Ratings">Ratings</span></a>
-                            </li>
-                            <li><a href="extra-components-tour.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Tour">Tour</span></a>
-                            </li>
-                            <li><a href="extra-components-i18n.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="i18n">i18n</span></a>
-                            </li>
-                            <li><a href="extra-components-highlight.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Highlight">Highlight</span></a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li className="navigation-header"><a className="navigation-header-text">Tables &amp; Forms </a><i className="navigation-header-icon material-icons">more_horiz</i>
-                </li>
-                <li className="bold"><a className="waves-effect waves-cyan " href="table-basic.html"><i className="material-icons">border_all</i><span className="menu-title" data-i18n="Basic Tables">Basic Tables</span></a>
-                </li>
-                <li className="bold"><a className="waves-effect waves-cyan " href="table-data-table.html"><i className="material-icons">grid_on</i><span className="menu-title" data-i18n="Data Tables">Data Tables</span></a>
-                </li>
-                <li className="bold"><a className="collapsible-header waves-effect waves-cyan " href="#!"><i className="material-icons">chrome_reader_mode</i><span className="menu-title" data-i18n="Forms">Forms</span></a>
-                    <div className="collapsible-body">
-                        <ul className="collapsible collapsible-sub" data-collapsible="accordion">
-                            <li><a href="form-elements.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Form Elements">Form Elements</span></a>
-                            </li>
-                            <li><a href="form-select2.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Form Select2">Form Select2</span></a>
-                            </li>
-                            <li><a href="form-validation.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Form Validation">Form Validation</span></a>
-                            </li>
-                            <li><a href="form-masks.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Form Masks">Form Masks</span></a>
-                            </li>
-                            <li><a href="form-editor.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Form Editor">Form Editor</span></a>
-                            </li>
-                            <li><a href="form-file-uploads.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="File Uploads">File Uploads</span></a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li className="bold"><a className="waves-effect waves-cyan " href="form-layouts.html"><i className="material-icons">image_aspect_ratio</i><span className="menu-title" data-i18n="Form Layouts">Form Layouts</span></a>
-                </li>
-                <li className="bold"><a className="waves-effect waves-cyan " href="form-wizard.html"><i className="material-icons">settings_ethernet</i><span className="menu-title" data-i18n="Form Wizard">Form Wizard</span></a>
-                </li>
-                <li className="navigation-header"><a className="navigation-header-text">Charts</a><i className="navigation-header-icon material-icons">more_horiz</i>
-                </li>
-                <li className="bold"><a className="collapsible-header waves-effect waves-cyan " href="#!"><i className="material-icons">pie_chart_outlined</i><span className="menu-title" data-i18n="Chart">Chart</span></a>
-                    <div className="collapsible-body">
-                        <ul className="collapsible collapsible-sub" data-collapsible="accordion">
-                            <li><a href="charts-chartjs.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="ChartJS">ChartJS</span></a>
-                            </li>
-                            <li><a href="charts-chartist.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Chartist">Chartist</span></a>
-                            </li>
-                            <li><a href="charts-sparklines.html"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Sparkline Charts">Sparkline Charts</span></a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li className="navigation-header"><a className="navigation-header-text">Misc </a><i className="navigation-header-icon material-icons">more_horiz</i>
-                </li>
-                <li className="bold"><a className="collapsible-header waves-effect waves-cyan " href="#!"><i className="material-icons">photo_filter</i><span className="menu-title" data-i18n="Menu levels">Menu levels</span></a>
+                <li className="bold"><a className="collapsible-header waves-effect waves-cyan " href="#!"><i className="material-icons">settings</i><span className="menu-title" data-i18n="Menu levels">Ajustes</span></a>
                     <div className="collapsible-body">
                         <ul className="collapsible collapsible-sub" data-collapsible="accordion">
                             <li><a href="#!"><i className="material-icons">radio_button_unchecked</i><span data-i18n="Second level">Second level</span></a>
@@ -355,9 +189,9 @@ function Navbar() {
                         </ul>
                     </div>
                 </li>
-                <li className="bold"><a className="waves-effect waves-cyan " href="https://pixinvent.com/materialize-material-design-admin-template/documentation/index.html" target="_blank"><i className="material-icons">import_contacts</i><span className="menu-title" data-i18n="Documentation">Documentation</span></a>
+                <li className="bold"><a className="waves-effect waves-cyan " href="https://pixinvent.com/materialize-material-design-admin-template/documentation/index.html" target="_blank"><i className="material-icons">account_box</i><span className="menu-title" data-i18n="Documentation">Administrar usuarios</span></a>
                 </li>
-                <li className="bold"><a className="waves-effect waves-cyan " href="https://pixinvent.ticksy.com/" target="_blank"><i className="material-icons">help_outline</i><span className="menu-title" data-i18n="Support">Support</span></a>
+                <li className="bold"><a className="waves-effect waves-cyan " href="https://pixinvent.ticksy.com/" target="_blank"><i className="material-icons">help_outline</i><span className="menu-title" data-i18n="Support">Ayuda</span></a>
                 </li>
             </ul>
             <div className="navigation-background"></div><a className="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium waves-effect waves-light hide-on-large-only" href="#" data-target="slide-out"><i className="material-icons">menu</i></a>
