@@ -1,17 +1,44 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "../styles/inventory.css";
 import SearchIcon from '@mui/icons-material/Search';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import WarehouseIcon from '@mui/icons-material/Warehouse';
 import BuildIcon from '@mui/icons-material/Build';
-import SubtitlesIcon from '@mui/icons-material/Subtitles';
-import PriceChangeIcon from '@mui/icons-material/PriceChange';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import DescriptionIcon from '@mui/icons-material/Description';
 
+import { getProducts } from '../functions/functions';
+import { Pagination } from '../components/pagination';
+
+
 function InventoryPage() {
+
+  const [products, setProducts] = useState([]); //Con los datos dinámicos
+  const [tableProducts, setTableProducts] = useState([]); //Con los datos estáticos
+  const [search, setSearch] = useState(''); //Contenido del input buscar
+  const [currentPage, setCurrentPage] = useState(1);
+  const [amountPerPage, setAmountPerPage] = useState(5);
+  const maxPages = Math.ceil(products.length / amountPerPage);
+
+  const handleChange = e => {
+    setSearch(e.target.value);
+    filterProducts(e.target.value);
+  }
+
+  const filterProducts = (searchTerm) => {
+    var searchResults = tableProducts.filter((element) => {
+      if (element.name.toString().toLowerCase().includes(searchTerm.toLowerCase())
+        || element.id.toString().toLowerCase().includes(searchTerm.toLowerCase())) {
+        return element;
+      }
+    })
+    setCurrentPage(1);
+    setProducts(searchResults);
+  }
+
+  useEffect(() => {
+    getProducts(setProducts, setTableProducts);
+  }, [])
 
   return (
     <div>
@@ -27,7 +54,7 @@ function InventoryPage() {
         <div className="row" style={{ margin: '30px 20px 20px 20px', paddingTop: '20px' }}>
           <div className="input-field  col s12 m9">
             <i className="prefix"><SearchIcon fontSize='large' /></i>
-            <input placeholder="Buscar por nombre o código" id="search" type="text"></input>
+            <input value={search} onChange={handleChange} placeholder="Buscar por nombre o código" id="search" type="text"></input>
             {/* <label htmlFor="search">Buscar</label> */}
           </div>
           <div className='input-field col s12 m3'>
@@ -36,73 +63,45 @@ function InventoryPage() {
         </div>
 
         {/* START TABLE */}
-        <div style={{ margin: '0px 20px 0px 20px' }}>
-          <table className="striped responsive-table">
-            <thead>
-              <tr>
-                <th>Código</th>
-                <th>Nombre</th>
-                <th>Cantidad</th>
-                <th>Precio venta</th>
-                <th className='center'>Acciones</th>
-              </tr>
-            </thead>
+        {
+          products != []
+            ? <div style={{ margin: '0px 20px 0px 20px' }}>
+              <table className="striped responsive-table">
+                <thead>
+                  <tr>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th>Cantidad</th>
+                    <th>Precio venta</th>
+                    <th className='center'>Acciones</th>
+                  </tr>
+                </thead>
 
-            <tbody>
-              <tr>
-                <td>Alvin</td><td>Eclair</td><td>$0.87</td><td>Alvin</td>
-                <td className='center'>
-                  <a className='modal-trigger' href="#modal1" style={{ marginRight: '5px' }}><i class="material-icons">visibility</i></a>
-                  <a className='modal-trigger' href="#modal1" style={{ marginRight: '5px' }}><i class="material-icons">edit</i></a>
-                  <a className='modal-trigger' href="#modal1" ><i class="material-icons">delete</i></a>
-                </td>
-              </tr>
-              <tr>
-                <td>Alvin</td><td>Eclair</td><td>$0.87</td><td>Alvin</td>
-                <td className='center'>
-                  <a className='modal-trigger' href="#modal1" style={{ marginRight: '5px' }}><i class="material-icons">visibility</i></a>
-                  <a className='modal-trigger' href="#modal1" style={{ marginRight: '5px' }}><i class="material-icons">edit</i></a>
-                  <a className='modal-trigger' href="#modal1" ><i class="material-icons">delete</i></a>
-                </td>
-              </tr>
-              <tr>
-                <td>Alvin</td><td>Eclair</td><td>$0.87</td><td>Alvin</td>
-                <td className='center'>
-                  <a className='modal-trigger' href="#modal1" style={{ marginRight: '5px' }}><i class="material-icons">visibility</i></a>
-                  <a className='modal-trigger' href="#modal1" style={{ marginRight: '5px' }}><i class="material-icons">edit</i></a>
-                  <a className='modal-trigger' href="#modal1" ><i class="material-icons">delete</i></a>
-                </td>
-              </tr>
-              <tr>
-                <td>Alvin</td><td>Eclair</td><td>$0.87</td><td>Alvin</td>
-                <td className='center'>
-                  <a className='modal-trigger' href="#modal1" style={{ marginRight: '5px' }}><i class="material-icons">visibility</i></a>
-                  <a className='modal-trigger' href="#modal1" style={{ marginRight: '5px' }}><i class="material-icons">edit</i></a>
-                  <a className='modal-trigger' href="#modal1" ><i class="material-icons">delete</i></a>
-                </td>
-              </tr>
-              <tr>
-                <td>Alvin</td><td>Eclair</td><td>$0.87</td><td>Alvin</td>
-                <td className='center'>
-                  <a className='modal-trigger' href="#modal1" style={{ marginRight: '5px' }}><i class="material-icons">visibility</i></a>
-                  <a className='modal-trigger' href="#modal1" style={{ marginRight: '5px' }}><i class="material-icons">edit</i></a>
-                  <a className='modal-trigger' href="#modal1" ><i class="material-icons">delete</i></a>
-                </td>
-              </tr>
+                <tbody>
+                  {
+                    products.slice((currentPage - 1) * amountPerPage, (currentPage - 1) * amountPerPage + amountPerPage)
+                      .map(product => (
+                        <tr key={product.id}>
+                          <td>{product.name}</td>
+                          <td>{product.name}</td>
+                          <td>{product.name}</td>
+                          <td>{product.name}</td>
+                          <td className='center'>
+                            <a className='modal-trigger' href="#modal1" style={{ marginRight: '5px' }}><i className="material-icons">visibility</i></a>
+                            <a className='modal-trigger' href="#modal1" style={{ marginRight: '5px' }}><i className="material-icons">edit</i></a>
+                            <a className='modal-trigger' href="#modal1" ><i className="material-icons">delete</i></a>
+                          </td>
+                        </tr>
+                      ))
+                  }
+                </tbody>
+              </table>
+            </div>
+            : <div>No se encontraron datos</div>
+        }
 
-            </tbody>
-          </table>
-        </div>
         {/* END TABLE */}
-        <ul className="pagination" style={{ marginTop: '50px', paddingBottom: '50px' }}>
-          <li className="disabled"><a href="#!"><i><ArrowBackIcon fontSize='normal' /></i></a></li>
-          <li className="active"><a href="#!">1</a></li>
-          <li className="waves-effect"><a href="#!">2</a></li>
-          <li className="waves-effect"><a href="#!">3</a></li>
-          <li className="waves-effect"><a href="#!">4</a></li>
-          <li className="waves-effect"><a href="#!">5</a></li>
-          <li className="waves-effect"><a href="#!"><i><ArrowForwardIcon fontSize='normal' /></i></a></li>
-        </ul>
+        <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} maxPages={maxPages} />
       </div>
 
       {/* <!-- Modal Structure --> */}
