@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import "../styles/inventory.css";
+import "../styles/loading.css";
 import SearchIcon from '@mui/icons-material/Search';
 import WarehouseIcon from '@mui/icons-material/Warehouse';
 import BuildIcon from '@mui/icons-material/Build';
@@ -7,12 +8,14 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import DescriptionIcon from '@mui/icons-material/Description';
 
-import { getProducts } from '../functions/functions';
+import { getProducts, postProducts } from '../functions/functions';
 import { Pagination } from '../components/pagination';
+import { Loader } from '../components/loader';
 
 
 function InventoryPage() {
 
+  const [isLoading, setIsLoading] = useState(false);
   const [products, setProducts] = useState([]); //Con los datos dinámicos
   const [tableProducts, setTableProducts] = useState([]); //Con los datos estáticos
   const [search, setSearch] = useState(''); //Contenido del input buscar
@@ -35,6 +38,7 @@ function InventoryPage() {
     setCurrentPage(1);
     setProducts(searchResults);
   }
+
 
   useEffect(() => {
     getProducts(setProducts, setTableProducts);
@@ -109,6 +113,7 @@ function InventoryPage() {
         <div className="modal-content">
           <div className='center'>
             <h4>Agregar artículo</h4>
+            {!isLoading ? <div/> : <Loader/>}
           </div>
           <div className='row'>
 
@@ -145,7 +150,7 @@ function InventoryPage() {
 
           </div>
           <div className='row center' style={{ marginTop: '24px' }}>
-            <button className="btn waves-effect waves-teal ">Guardar</button>
+            <button onClick={() => postProducts(setIsLoading)} className="btn waves-effect waves-teal ">Guardar</button>
           </div>
 
         </div>

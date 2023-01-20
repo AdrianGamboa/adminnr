@@ -1,0 +1,56 @@
+.loader {
+    border: 16px solid #f3f3f3;
+
+    border-top: 16px solid #BE4848;
+
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spinloader 2s linear infinite;
+    margin-left: 120px;
+    margin-top: 25px;
+}
+
+@media screen and (max-width: 768px) {
+    .loader {
+        margin-left: 18px;
+        margin-top: 50px;
+    }
+}
+
+.loader img {
+    height: 40px;
+    width: 60px;
+    animation: spinlogo 2s linear infinite;
+}
+
+@keyframes spinloader {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes spinlogo {
+    0% {
+        transform: rotate(360deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.overlay {
+    width: 50%;
+    height: 50%;
+    position: fixed;
+    top: 25%;
+    left: 25%;
+    z-index: 100;
+    background-color: #e9e8e8;
+    text-align: center;
+}
