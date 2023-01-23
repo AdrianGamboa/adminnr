@@ -22,6 +22,7 @@ function LoginPage() {
 
     useEffect(() => {
         userRef.current.focus();
+        document.getElementById("main").classList.add("mainL");        
     }, []);
 
     useEffect(() => {

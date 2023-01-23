@@ -131,6 +131,15 @@ textarea.materialize-textarea:focus:not([readonly]) {
   width: 50px;
 }
 
+@media only screen and (min-width: 993px) {
+  #main {
+     padding-left: 250px;
+  }
+  .mainL {
+     padding-left: 0px !important;
+  }
+}
+
 /* .navigationp {
   height: 60px;
   width: 100%;

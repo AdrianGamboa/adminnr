@@ -12,8 +12,10 @@ const axiosConfig = {
 const login = async (data) => {
     await axios.post(Url+'login', data, axiosConfig)
         .then((response) => {
-            if (response.data.message === 'Authorized') {
-                window.location.href="../home";
+            if (response.data.message === 'Authorized') {                
+                document.getElementById("main").classList.remove("mainL"); 
+                localStorage.setItem('user-token', response.data.access_token);
+                window.location.href="../home";                 
             }
             else if (response.data.message === 'Unauthorized') {
                 swal({
