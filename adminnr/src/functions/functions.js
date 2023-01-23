@@ -1,25 +1,77 @@
 import axios from 'axios';
+import swal from 'sweetalert';
 
-const getProducts = async (state1, state2) => {
-    const peticion = await axios.get('https://rickandmortyapi.com/api/character');
-    // console.log(peticion);
-    state1(peticion.data.results);
-    state2(peticion.data.results);
+const Url = 'http://127.0.0.1:8000/api/';
+const axiosConfig = {
+    headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        "Access-Control-Allow-Origin": "*",
+    }
+};
 
-    //await axios.get('').then(response => { console.log(response.data); }).catch(error => { console.log(error); })
-}
-const postProducts = async (setIsLoading) => {
-    setIsLoading(true);
-    document.body.style.pointerEvents = 'none'; //Desactiva clicks
-    const peticion = await axios.post('https://reqres.in/api/posts', { title: "Hello World!", body: "This is a new post." })
+const login = async (data) => {
+    await axios.post(Url+'login', data, axiosConfig)
         .then((response) => {
-            setIsLoading(false);
+            if (response.data.message === 'Authorized') {
+                window.location.href="../home";
+            }
+            else if (response.data.message === 'Unauthorized') {
+                swal({
+                    title: 'Error al iniciar sesión',
+                    text: 'Correo o contraseña incorrecto',
+                    icon: 'error',
+                    buttons: 'Aceptar'
+                });
+            }
+        }).catch(error => {
+            console.error('Hubo un error!', error);
+        });
+}
+
+const getProducts = async (setProducts, setTableProducts) => {
+    await axios.get(Url+'products')
+        .then(response => {
+            setProducts(response.data);
+            setTableProducts(response.data);
+        })
+        .catch(error => { console.log(error); });
+}
+
+const insertProductP = async (setIsLoading, product) => {
+
+    setIsLoading(true); //Activa el mensaje de cargando
+    document.body.style.pointerEvents = 'none'; //Desactiva clicks
+
+    await axios.post(Url+'add_product', product)
+        .then((response) => {
+
+            setIsLoading(false); //Desactiva el mensaje de cargando
             document.body.style.pointerEvents = 'all'; //Activa clicks
-            console.log(response.data);
+            // console.log(response.data);
+
+        }).catch(error => {
+            console.error('Hubo un error!', error);
+        });
+}
+
+const deleteProductP = async (setIsLoading, product_id) => {
+
+    setIsLoading(true); //Activa el mensaje de cargando
+    document.body.style.pointerEvents = 'none'; //Desactiva clicks
+
+    await axios.delete(Url+'delete_product/'+product_id)
+        .then((response) => {
+
+            setIsLoading(false); //Desactiva el mensaje de cargando
+            document.body.style.pointerEvents = 'all'; //Activa clicks
+            // console.log(response.data);            
+
+        }).catch(error => {
+            console.error('Hubo un error!', error);
         });
 }
 
 export {
     getProducts,
-    postProducts
+    insertProductP, deleteProductP, login
 }

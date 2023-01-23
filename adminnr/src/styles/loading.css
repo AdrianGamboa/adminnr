@@ -7,20 +7,51 @@
     width: 120px;
     height: 120px;
     animation: spinloader 2s linear infinite;
-    margin-left: 120px;
-    margin-top: 25px;
+
+
+    margin-top: 10%;
+}
+
+.loaderG {
+    border: 16px solid #f3f3f3;
+
+    border-top: 16px solid #BE4848;
+
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    animation: spinloader 2s linear infinite;
+
+    margin-top: 10%;
+
 }
 
 @media screen and (max-width: 768px) {
     .loader {
-        margin-left: 18px;
-        margin-top: 50px;
+
+        margin-top: 20%;
+    }
+
+    .loaderG {
+        margin-top: 20%;
+    }
+
+    .overlayG, .overlay {
+        width: 80% !important;
+
+        left: 10% !important;
     }
 }
 
 .loader img {
     height: 40px;
     width: 60px;
+    animation: spinlogo 2s linear infinite;
+}
+
+.loaderG img {
+    height: 50px;
+    width: 80px;
     animation: spinlogo 2s linear infinite;
 }
 
@@ -46,11 +77,28 @@
 
 .overlay {
     width: 50%;
-    height: 50%;
+    height: 60%;
     position: fixed;
     top: 25%;
     left: 25%;
     z-index: 100;
     background-color: #e9e8e8;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.overlayG {
+    width: 40%;
+    height: 40%;
+    position: fixed;
+    top: 25%;
+    left: 30%;
+    z-index: 100;
+    background-color: #e9e8e8;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }

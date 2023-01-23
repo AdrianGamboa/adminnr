@@ -34,8 +34,9 @@ nav .nav-wrapper {
 .profile-button {
   height: 64px;
 }
+
 a {
-  color:inherit;
+  color: inherit;
 }
 
 @media screen and (max-width: 768px) {
@@ -122,6 +123,12 @@ input[type=search]:not(.browser-default):focus:not([readonly]),
 textarea.materialize-textarea:focus:not([readonly]) {
   border-bottom: 1px solid #1976d2;
   box-shadow: 0 1px 0 0 #1976d2;
+}
+
+.btn-pag {
+
+  padding: 5px 20px;
+  width: 50px;
 }
 
 /* .navigationp {

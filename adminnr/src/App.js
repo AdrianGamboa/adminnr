@@ -4,12 +4,21 @@ import {
   Route,
   Navigate,
 } from 'react-router-dom'
+
 import LoginPage from './pages/loginPage';
 import HomePage from './pages/homePage';
-import SellsPage from './pages/sellsPage';
+import SalesPage from './pages/salesPage';
 import InventoryPage from './pages/inventoryPage';
 import ReportsPage from './pages/reportsPage';
 import ClientsPage from './pages/clientsPage';
+import SellPage from './pages/sellPage';
+import ServicesPage from './pages/servicesPage';
+import UserAdminPage from './pages/userAdminPage';
+import HelpPage from './pages/helpPage';
+
+import "./styles/loading.css";
+import StoreProvider, { StoreContext } from './store/storeProvider';
+import { useContext } from 'react';
 
 function App() {
 
@@ -18,17 +27,27 @@ function App() {
   //   <Navigate to='/login' />
 
   return (
-    <Router>
-      <Routes>
-        <Route path='/' element={<Navigate to='/login' />} />
-        <Route path='/home' element={<HomePage />} />
-        <Route path='/login' element={<LoginPage />} />
-        <Route path='/inventory' element={<InventoryPage />} />
-        <Route path='/sells' element={<SellsPage />} />
-        <Route path='/clients' element={<ClientsPage />} />
-        <Route path='/reports' element={<ReportsPage />} />
-      </Routes>
-    </Router>
+    <div>
+      <StoreProvider>
+        <Router>
+          <Routes>
+            <Route path='/' element={<Navigate to='/login' />} />
+            <Route path='/home' element={<HomePage />} />
+            <Route path='/login' element={<LoginPage />} />
+            <Route path='/inventory' element={<InventoryPage />} />
+            <Route path='/services' element={<ServicesPage />} />
+            <Route path='/sales' element={<SalesPage />} />
+            <Route path='/sell' element={<SellPage />} />
+            <Route path='/clients' element={<ClientsPage />} />
+            <Route path='/reports' element={<ReportsPage />} />
+            <Route path='/userAdmin' element={<UserAdminPage />} />
+            <Route path='/help' element={<HelpPage />} />
+          </Routes>
+        </Router>
+      </StoreProvider>
+
+    </div>
+
   );
 }
 

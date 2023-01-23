@@ -2,13 +2,11 @@ import React from 'react'
 import Footer from '../components/footer'
 import Header from '../components/header'
 import Navbar from '../components/navbar'
-import { useNavigate } from 'react-router-dom';
+import BarChartIcon from '@mui/icons-material/BarChart';
 
-
-function SellsPage() {
-  const navigate = useNavigate();
-  return (
-    <div>
+function SalesPage() {
+    return (
+        <div>
             <Navbar />
             <Header />
             <div id="main">
@@ -16,7 +14,12 @@ function SellsPage() {
                     <div className="col s12">
                         <div className="container">
                             <div className="section">
-                                Sells Page                                
+                                <div className='center main-content' style={{ marginTop: '20px', paddingBottom: '5px', paddingTop: '5px' }}>
+                                    <div className='row' >
+                                        <h5 ><BarChartIcon fontSize='large' /></h5>
+                                        <h5 >Registro de ventas</h5>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div className="content-overlay"></div>
@@ -25,7 +28,7 @@ function SellsPage() {
                 <Footer />
             </div>
         </div>
-  )
+    )
 }
 
-export default SellsPage
+export default SalesPage

@@ -1,14 +1,17 @@
-import React from 'react'
 import logo from './../assets/images/nrlogo.png';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LockIcon from '@mui/icons-material/Lock';
-import { useNavigate } from "react-router-dom";
 
-import { useRef, useState, useEffect } from 'react';
+import { login } from '../functions/functions';
+
+import { useContext, useRef, useState, useEffect } from 'react';
+import { StoreContext } from '../store/storeProvider';
+import { types } from '../store/storeReducer';
 
 function LoginPage() {
 
-    const navigate = useNavigate();
+    const [store, dispatch] = useContext(StoreContext);
+    const { isLoading } = store;
 
     const userRef = useRef();
     const errRef = useRef();
@@ -27,10 +30,20 @@ function LoginPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setUser('');
-        setPwd('');
-        console.log('HACE LOGIN');
-        window.location.href="../home";
+
+        document.body.style.pointerEvents = 'none'; //Desactiva clicks
+        dispatch({ type: types.setLoadingOn, payload: { isLoading: true } }) //Activa el mensaje de cargando
+        
+        const data = { email: user, password: pwd };
+        login(data).then(() => {
+            dispatch({ type: types.setLoadingOff, payload: { isLoading: false } }) //Desactiva el mensaje de cargando
+            document.body.style.pointerEvents = 'all'; //Activa clicks
+        });
+
+        // setUser('');
+        // setPwd('');
+        // console.log('HACE LOGIN');
+        // window.location.href="../home";
         // navigate("/home");
         // navigate('../home', { replace: true })
     }
@@ -77,9 +90,8 @@ function LoginPage() {
                                         </div>
 
                                         <div className='center'>
-                                            <button className="btn waves-effect waves-light center"  name="action" style={{ marginTop: '20px' }}>
+                                            <button className="btn waves-effect waves-light center" name="action" style={{ marginTop: '20px' }}>
                                                 Iniciar sesión
-                                                <i className="fa fa-sign-in right"></i>
                                             </button>
                                         </div>
 
