@@ -29,7 +29,7 @@ const login = async (data) => {
 }
 
 const getProducts = async (setProducts, setTableProducts) => {
-    await axios.get(Url+'products')
+    await axios.get(Url+'get_products')
         .then(response => {
             setProducts(response.data);
             setTableProducts(response.data);

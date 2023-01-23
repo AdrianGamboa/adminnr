@@ -16,6 +16,10 @@ import ServicesPage from './pages/servicesPage';
 import UserAdminPage from './pages/userAdminPage';
 import HelpPage from './pages/helpPage';
 
+import Footer from './components/footer'
+import Header from './components/header'
+import Navbar from './components/navbar'
+
 import "./styles/loading.css";
 import StoreProvider, { StoreContext } from './store/storeProvider';
 import { useContext } from 'react';
@@ -30,19 +34,33 @@ function App() {
     <div>
       <StoreProvider>
         <Router>
-          <Routes>
-            <Route path='/' element={<Navigate to='/login' />} />
-            <Route path='/home' element={<HomePage />} />
-            <Route path='/login' element={<LoginPage />} />
-            <Route path='/inventory' element={<InventoryPage />} />
-            <Route path='/services' element={<ServicesPage />} />
-            <Route path='/sales' element={<SalesPage />} />
-            <Route path='/sell' element={<SellPage />} />
-            <Route path='/clients' element={<ClientsPage />} />
-            <Route path='/reports' element={<ReportsPage />} />
-            <Route path='/userAdmin' element={<UserAdminPage />} />
-            <Route path='/help' element={<HelpPage />} />
-          </Routes>
+          <Navbar />
+          <Header />
+          <div id="main">
+            <div className="row">
+              <div className="col s12">
+                <div className="container">
+
+                  <Routes>
+                    <Route path='/' element={<Navigate to='/login' />} />
+                    <Route path='/home' element={<HomePage />} />
+                    <Route path='/login' element={<LoginPage />} />
+                    <Route path='/inventory' element={<InventoryPage />} />
+                    <Route path='/services' element={<ServicesPage />} />
+                    <Route path='/sales' element={<SalesPage />} />
+                    <Route path='/sell' element={<SellPage />} />
+                    <Route path='/clients' element={<ClientsPage />} />
+                    <Route path='/reports' element={<ReportsPage />} />
+                    <Route path='/userAdmin' element={<UserAdminPage />} />
+                    <Route path='/help' element={<HelpPage />} />
+                  </Routes>
+
+                </div>
+                <div className="content-overlay"></div>
+              </div>
+            </div>
+            <Footer />
+          </div>
         </Router>
       </StoreProvider>
 
