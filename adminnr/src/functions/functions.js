@@ -2,20 +2,29 @@ import axios from 'axios';
 import swal from 'sweetalert';
 
 const Url = 'http://127.0.0.1:8000/api/';
+
 const axiosConfig = {
     headers: {
         'Content-Type': 'application/json;charset=UTF-8',
+        "Access-Control-Allow-Origin": "*"
+    }
+};
+
+const axiosConfigAuth = {
+    headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
         "Access-Control-Allow-Origin": "*",
+        'Authorization': 'Bearer ' + localStorage.getItem('user-token')
     }
 };
 
 const login = async (data) => {
-    await axios.post(Url+'login', data, axiosConfig)
+    await axios.post(Url + 'login', data, axiosConfig)
         .then((response) => {
-            if (response.data.message === 'Authorized') {                
-                document.getElementById("main").classList.remove("mainL"); 
+            if (response.data.message === 'Authorized') {
+                document.getElementById("main").classList.remove("mainL");
                 localStorage.setItem('user-token', response.data.access_token);
-                window.location.href="../home";                 
+                window.location.href = "../home";
             }
             else if (response.data.message === 'Unauthorized') {
                 swal({
@@ -30,8 +39,8 @@ const login = async (data) => {
         });
 }
 
-const getProducts = async (setProducts, setTableProducts) => {
-    await axios.get(Url+'get_products')
+const getProducts = async (setProducts, setTableProducts) => {    
+    await axios.get(Url + 'get_products', axiosConfigAuth)
         .then(response => {
             setProducts(response.data);
             setTableProducts(response.data);
@@ -40,11 +49,25 @@ const getProducts = async (setProducts, setTableProducts) => {
 }
 
 const insertProductP = async (setIsLoading, product) => {
-
     setIsLoading(true); //Activa el mensaje de cargando
     document.body.style.pointerEvents = 'none'; //Desactiva clicks
 
-    await axios.post(Url+'add_product', product)
+    await axios.post(Url + 'add_product', product, axiosConfigAuth)
+        .then((response) => {
+
+            setIsLoading(false); //Desactiva el mensaje de cargando
+            document.body.style.pointerEvents = 'all'; //Activa clicks
+            // console.log(response.data);
+
+        }).catch(error => {
+            console.error('Hubo un error!', error);
+        });
+}
+const updateProductP = async (setIsLoading, product) => {
+    setIsLoading(true); //Activa el mensaje de cargando
+    document.body.style.pointerEvents = 'none'; //Desactiva clicks
+
+    await axios.post(Url + 'update_product/'+product.product_id, product, axiosConfigAuth)
         .then((response) => {
 
             setIsLoading(false); //Desactiva el mensaje de cargando
@@ -57,11 +80,10 @@ const insertProductP = async (setIsLoading, product) => {
 }
 
 const deleteProductP = async (setIsLoading, product_id) => {
-
     setIsLoading(true); //Activa el mensaje de cargando
     document.body.style.pointerEvents = 'none'; //Desactiva clicks
 
-    await axios.delete(Url+'delete_product/'+product_id)
+    await axios.delete(Url + 'delete_product/' + product_id, axiosConfigAuth)
         .then((response) => {
 
             setIsLoading(false); //Desactiva el mensaje de cargando
@@ -74,6 +96,6 @@ const deleteProductP = async (setIsLoading, product_id) => {
 }
 
 export {
-    getProducts,
-    insertProductP, deleteProductP, login
+    login,
+    getProducts, insertProductP, updateProductP, deleteProductP 
 }

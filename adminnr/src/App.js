@@ -26,12 +26,6 @@ import StoreProvider from './store/storeProvider';
 
 function App() {
 
-  // setter
-  // localStorage.setItem('my-key', textForStorage);
-
-  // getter
-  // const textFromStorage = localStorage.getItem('my-key');
-
   return (
     <div>
       <StoreProvider>

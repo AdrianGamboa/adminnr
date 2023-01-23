@@ -9,8 +9,9 @@ import BuildIcon from '@mui/icons-material/Build';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import DescriptionIcon from '@mui/icons-material/Description';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
-import { getProducts, insertProductP, deleteProductP } from '../functions/functions';
+import { getProducts, insertProductP, updateProductP, deleteProductP } from '../functions/functions';
 import { Pagination } from '../components/pagination';
 import { Loader } from '../components/loader';
 import swal from 'sweetalert';
@@ -28,6 +29,9 @@ function InventoryPage() {
   const amountPerPage = 5; //Cantidad de registros por página
   const maxPages = Math.ceil(products.length / amountPerPage); //Calcula la cantidad de páginas
 
+  const [isEditing, setIsEditing] = useState(false); //Para saber si se está editando el producto
+  const [isWatching, setIsWatching] = useState(false); //Para saber si se está viendo el producto
+
   const [store, dispatch] = useContext(StoreContext);
 
   //Variables de los productos
@@ -37,6 +41,8 @@ function InventoryPage() {
   const [purchasePrice, setPurchasePrice] = useState('');
   const [salePrice, setSalePrice] = useState('');
   const [description, setDescription] = useState('');
+  const [registration_date, setRegistration_date] = useState('');
+  const [original_stock, setOriginal_stock] = useState('');
 
   const confirmDeleteProduct = (productId) => {
     swal({
@@ -112,6 +118,37 @@ function InventoryPage() {
     });
   }
 
+  const selectProduct = (product_id) => {
+
+    const product = tableProducts.find(obj => {
+      return obj.product_id === product_id;
+    });
+
+    setId(product.product_id);
+    setName(product.name);
+    setAmount(product.stock);
+    setPurchasePrice(product.purchase_price);
+    setSalePrice(product.sale_price);
+    setDescription(product.description);
+    setOriginal_stock(product.original_stock);
+    setRegistration_date(product.registration_date);
+    activeInputs();
+  }
+  const updateProduct = () => {
+    const product = {
+      product_id: id,
+      name: name,
+      purchase_price: purchasePrice,
+      sale_price: salePrice,
+      stock: amount,
+      original_stock: amount,
+      state: 1,
+      registration_date: new Date().toISOString().slice(0, 19).replace('T', ' '),
+      description: description,
+    };
+    updateProductP(setisLoadingL, product).then((result) => { });
+  }
+
   const cleanVariables = () => {
     setId('');
     setName('');
@@ -119,14 +156,22 @@ function InventoryPage() {
     setPurchasePrice('');
     setSalePrice('');
     setDescription('');
-    resetInputs();
+    inactiveInputs();
   }
 
-  const resetInputs = () => {
+  const inactiveInputs = () => {
     var elems = document.getElementsByClassName('formLbl');
     if (elems.length) {
       for (let index = 0; index < elems.length; index++) {
         elems[index].classList.remove('active');
+      }
+    }
+  }
+  const activeInputs = () => {
+    var elems = document.getElementsByClassName('formLbl');
+    if (elems.length) {
+      for (let index = 0; index < elems.length; index++) {
+        elems[index].classList.add('active');
       }
     }
   }
@@ -161,7 +206,7 @@ function InventoryPage() {
               {/* <label htmlFor="search">Buscar</label> */}
             </div>
             <div className='input-field col s12 m3'>
-              <button data-target="modal1" className="btn waves-effect waves-teal modal-trigger">Nuevo artículo</button>
+              <button onClick={() => { cleanVariables(); setIsEditing(false); setIsWatching(false); }} data-target="modal1" className="btn waves-effect waves-teal modal-trigger">Nuevo artículo</button>
             </div>
           </div>
 
@@ -190,8 +235,8 @@ function InventoryPage() {
                             <td width={'20%'} >{product.stock}</td>
                             <td width={'20%'} >{product.sale_price}</td>
                             <td width={'20%'}>
-                              <a className='modal-trigger' href="#modal1" style={{ marginRight: '5px' }}><i className="material-icons">visibility</i></a>
-                              <a className='modal-trigger' href="#modal1" style={{ marginRight: '5px' }}><i className="material-icons">edit</i></a>
+                              <a onClick={() => { setIsEditing(false); setIsWatching(true); selectProduct(product.product_id); }} className='modal-trigger' href="#modal1" style={{ marginRight: '5px' }}><i className="material-icons">visibility</i></a>
+                              <a onClick={() => { setIsEditing(true); setIsWatching(false); selectProduct(product.product_id); }} className='modal-trigger' href="#modal1" style={{ marginRight: '5px' }}><i className="material-icons">edit</i></a>
                               <a href="#!" onClick={() => confirmDeleteProduct(product.product_id)} ><i className="material-icons">delete</i></a>
                             </td>
                           </tr>
@@ -211,44 +256,61 @@ function InventoryPage() {
         <div id="modal1" className="modal">
           <div className="modal-content">
             <div className='center'>
-              <h4>Agregar artículo</h4>
+              {isEditing ? <h4>Editar artículo</h4> : isWatching ? <h4>Observar artículo</h4> : <h4>Agregar artículo</h4>}
               {!isLoadingL ? <div /> : <Loader />}
             </div>
             <div className='row'>
               <div className='input-field col s12 m6'>
                 <i className="prefix"><BuildIcon fontSize='medium' /></i>
-                <input value={name} id="name" type="text" autoComplete='off' required onChange={(e) => setName(e.target.value)} />
+                <input disabled={isWatching ? true : false} value={name} id="name" type="text" autoComplete='off' maxLength={45} required onChange={(e) => setName(e.target.value)} />
                 <label className='formLbl' htmlFor="name">Nombre</label>
               </div>
               <div className='input-field col s12 m6'>
                 <i className="prefix"><InventoryIcon fontSize='medium' /></i>
-                <input value={amount} id="stock" type="number" autoComplete='off' required onChange={(e) => setAmount(e.target.value)} />
+                <input disabled={isWatching ? true : false} value={amount} id="stock" type="number" autoComplete='off' min={0} required onChange={(e) => {setAmount(e.target.value)}} />
                 <label className='formLbl' htmlFor="stock">Cantidad</label>
               </div>
             </div>
             <div className='row'>
               <div className='input-field col s12 m6'>
                 <i className="prefix"><AttachMoneyIcon fontSize='medium' /></i>
-                <input value={purchasePrice} id="purchase_price" type="number" autoComplete='off' required onChange={(e) => setPurchasePrice(e.target.value)} />
+                <input disabled={isWatching ? true : false} value={purchasePrice} id="purchase_price" type="number" autoComplete='off' min={0} required onChange={(e) => setPurchasePrice(e.target.value)} />
                 <label className='formLbl' htmlFor="purchase_price">Precio de compra</label>
               </div>
-
               <div className='input-field col s12 m6'>
                 <i className="prefix"><AttachMoneyIcon fontSize='medium' /></i>
-                <input value={salePrice} id="sale_price" type="number" autoComplete='off' required onChange={(e) => setSalePrice(e.target.value)} />
+                <input disabled={isWatching ? true : false} value={salePrice} id="sale_price" type="number" autoComplete='off' min={0} required onChange={(e) => setSalePrice(e.target.value)} />
                 <label className='formLbl' htmlFor="sale_price">Precio de venta</label>
               </div>
             </div>
             <div className='row'>
               <div className='input-field col s12 m12'>
                 <i className="prefix"><DescriptionIcon fontSize='medium' /></i>
-                <input value={description} id="description" type="text" autoComplete='off' required onChange={(e) => setDescription(e.target.value)} />
+                <input disabled={isWatching ? true : false} value={description} id="description" type="text" maxLength={80} autoComplete='off' required onChange={(e) => setDescription(e.target.value)} />
                 <label className='formLbl' htmlFor="description">Descripción</label>
               </div>
-
             </div>
+            {
+              isWatching
+                ? <div className='row'>
+                  <div className='input-field col s12 m6'>
+                    <i className="prefix"><CalendarMonthIcon fontSize='medium' /></i>
+                    <input disabled value={registration_date} id="registration_date" type="text" autoComplete='off' min={0} required onChange={(e) => setRegistration_date(e.target.value)} />
+                    <label className='active' htmlFor="registration_date">Fecha de registro</label>
+                  </div>
+                  <div className='input-field col s12 m6'>
+                    <i className="prefix"><InventoryIcon fontSize='medium' /></i>
+                    <input disabled value={original_stock} id="original_stock" type="number" autoComplete='off' min={0} required onChange={(e) => setOriginal_stock(e.target.value)} />
+                    <label className='active' htmlFor="original_stock">Cantidad original</label>
+                  </div>
+                </div>
+                : <div />
+            }
             <div className='row center' style={{ marginTop: '24px' }}>
-              <button onClick={insertProduct} className="btn waves-effect waves-teal ">Guardar</button>
+              {isEditing
+                ? <button onClick={updateProduct} className="btn waves-effect waves-teal ">Editar</button>
+                : !isWatching ? <button onClick={insertProduct} className="btn waves-effect waves-teal ">Guardar</button> : <div />}
+
             </div>
 
           </div>
