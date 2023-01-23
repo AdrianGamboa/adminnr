@@ -19,10 +19,10 @@ import HelpPage from './pages/helpPage';
 import Footer from './components/footer'
 import Header from './components/header'
 import Navbar from './components/navbar'
+import LoaderGlobal from './components/loaderGlobal';
 
 import "./styles/loading.css";
-import StoreProvider, { StoreContext } from './store/storeProvider';
-import { useContext } from 'react';
+import StoreProvider from './store/storeProvider';
 
 function App() {
 
@@ -40,7 +40,7 @@ function App() {
             <div className="row">
               <div className="col s12">
                 <div className="container">
-
+                  <LoaderGlobal/>
                   <Routes>
                     <Route path='/' element={<Navigate to='/login' />} />
                     <Route path='/home' element={<HomePage />} />

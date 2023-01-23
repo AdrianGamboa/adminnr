@@ -20,16 +20,15 @@ import { types } from '../store/storeReducer';
 
 function InventoryPage() {
 
-  const [isLoadingL, setisLoadingL] = useState(false);
+  const [isLoadingL, setisLoadingL] = useState(false); //El cargando local
   const [products, setProducts] = useState([]); //Con los datos dinámicos
   const [tableProducts, setTableProducts] = useState([]); //Con los datos estáticos
   const [search, setSearch] = useState(''); //Contenido del input buscar
-  const [currentPage, setCurrentPage] = useState(1);
-  const [amountPerPage, setAmountPerPage] = useState(5);
-  const maxPages = Math.ceil(products.length / amountPerPage);
+  const [currentPage, setCurrentPage] = useState(1); //La página en la que se encuentra actualmente
+  const amountPerPage = 5; //Cantidad de registros por página
+  const maxPages = Math.ceil(products.length / amountPerPage); //Calcula la cantidad de páginas
 
   const [store, dispatch] = useContext(StoreContext);
-  const { isLoading } = store;
 
   //Variables de los productos
   const [id, setId] = useState('');
@@ -136,6 +135,7 @@ function InventoryPage() {
 
     document.body.style.pointerEvents = 'none'; //Desactiva clicks
     dispatch({ type: types.setLoadingOn, payload: { isLoading: true } }) //Activa el mensaje de cargando
+
     getProducts(setProducts, setTableProducts).then(() => {
       dispatch({ type: types.setLoadingOff, payload: { isLoading: false } }) //Desactiva el mensaje de cargando
       document.body.style.pointerEvents = 'all'; //Activa clicks
