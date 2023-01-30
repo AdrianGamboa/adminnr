@@ -39,6 +39,8 @@ const login = async (data) => {
         });
 }
 
+//Products
+
 const getProducts = async (setProducts, setTableProducts) => {    
     await axios.get(Url + 'get_products', axiosConfigAuth)
         .then(response => {
@@ -95,7 +97,27 @@ const deleteProductP = async (setIsLoading, product_id) => {
         });
 }
 
+//Sells
+
+const insertSell = async (sell) => {
+    // setIsLoading(true); //Activa el mensaje de cargando
+    document.body.style.pointerEvents = 'none'; //Desactiva clicks
+
+    await axios.post(Url + 'add_sell', sell, axiosConfigAuth)
+        .then((response) => {
+
+            // setIsLoading(false); //Desactiva el mensaje de cargando
+            document.body.style.pointerEvents = 'all'; //Activa clicks
+            // console.log(response.data);
+            return response;
+
+        }).catch(error => {
+            console.error('Hubo un error!', error);
+        });
+}
+
 export {
     login,
-    getProducts, insertProductP, updateProductP, deleteProductP 
+    getProducts, insertProductP, updateProductP, deleteProductP,
+    insertSell,
 }
