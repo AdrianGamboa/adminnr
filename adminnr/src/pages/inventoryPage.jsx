@@ -146,7 +146,26 @@ function InventoryPage() {
       registration_date: new Date().toISOString().slice(0, 19).replace('T', ' '),
       description: description,
     };
-    updateProductP(setisLoadingL, product).then((result) => { });
+    updateProductP(setisLoadingL, product).then((result) => {
+      getProducts(setProducts, setTableProducts);
+      setCurrentPage(1);
+
+      swal({
+        title: 'Éxito',
+        text: 'Producto guardado correctamente',
+        icon: 'success',
+        buttons: 'Aceptar'
+      }).then(result => {
+        if (result) {
+          //Cierra modal
+          const modal1 = document.querySelector('#modal1');
+          var instance = M.Modal.getInstance(modal1);
+          instance.close();
+          //Limpia variables y reinicia inputs
+          cleanVariables();
+        }
+      });
+    });
   }
 
   const cleanVariables = () => {
@@ -267,7 +286,7 @@ function InventoryPage() {
               </div>
               <div className='input-field col s12 m6'>
                 <i className="prefix"><InventoryIcon fontSize='medium' /></i>
-                <input disabled={isWatching ? true : false} value={amount} id="stock" type="number" autoComplete='off' min={0} required onChange={(e) => {setAmount(e.target.value)}} />
+                <input disabled={isWatching ? true : false} value={amount} id="stock" type="number" autoComplete='off' min={0} required onChange={(e) => { setAmount(e.target.value) }} />
                 <label className='formLbl' htmlFor="stock">Cantidad</label>
               </div>
             </div>

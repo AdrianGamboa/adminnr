@@ -97,6 +97,64 @@ const deleteProductP = async (setIsLoading, product_id) => {
         });
 }
 
+//Services
+
+const getServices = async (setServices, setTableServices) => {    
+    await axios.get(Url + 'get_services', axiosConfigAuth)
+        .then(response => {
+            setServices(response.data);
+            setTableServices(response.data);
+        })
+        .catch(error => { console.log(error); });
+}
+
+const insertServiceP = async (setIsLoading, service) => {
+    setIsLoading(true); //Activa el mensaje de cargando
+    document.body.style.pointerEvents = 'none'; //Desactiva clicks
+
+    await axios.post(Url + 'add_service', service, axiosConfigAuth)
+        .then((response) => {
+
+            setIsLoading(false); //Desactiva el mensaje de cargando
+            document.body.style.pointerEvents = 'all'; //Activa clicks
+            // console.log(response.data);
+
+        }).catch(error => {
+            console.error('Hubo un error!', error);
+        });
+}
+const updateServiceP = async (setIsLoading, service) => {
+    setIsLoading(true); //Activa el mensaje de cargando
+    document.body.style.pointerEvents = 'none'; //Desactiva clicks
+
+    await axios.post(Url + 'update_service/'+service.service_id, service, axiosConfigAuth)
+        .then((response) => {
+
+            setIsLoading(false); //Desactiva el mensaje de cargando
+            document.body.style.pointerEvents = 'all'; //Activa clicks
+            // console.log(response.data);
+
+        }).catch(error => {
+            console.error('Hubo un error!', error);
+        });
+}
+
+const deleteServiceP = async (setIsLoading, service_id) => {
+    setIsLoading(true); //Activa el mensaje de cargando
+    document.body.style.pointerEvents = 'none'; //Desactiva clicks
+
+    await axios.delete(Url + 'delete_service/' + service_id, axiosConfigAuth)
+        .then((response) => {
+
+            setIsLoading(false); //Desactiva el mensaje de cargando
+            document.body.style.pointerEvents = 'all'; //Activa clicks
+            // console.log(response.data);            
+
+        }).catch(error => {
+            console.error('Hubo un error!', error);
+        });
+}
+
 //Sells
 
 const insertSell = async (sell) => {
@@ -119,5 +177,6 @@ const insertSell = async (sell) => {
 export {
     login,
     getProducts, insertProductP, updateProductP, deleteProductP,
+    getServices, insertServiceP, updateServiceP, deleteServiceP,
     insertSell,
 }
