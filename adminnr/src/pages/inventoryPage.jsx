@@ -21,7 +21,6 @@ import { types } from '../store/storeReducer';
 
 function InventoryPage() {
 
-  const [isLoadingL, setisLoadingL] = useState(false); //El cargando local
   const [products, setProducts] = useState([]); //Con los datos dinámicos
   const [tableProducts, setTableProducts] = useState([]); //Con los datos estáticos
   const [search, setSearch] = useState(''); //Contenido del input buscar
@@ -52,16 +51,18 @@ function InventoryPage() {
       buttons: ['No', 'Si']
     }).then(result => {
       if (result) {
+
+        dispatch({ type: types.setLoadingOn, payload: { isLoading: true } }) //Activa el mensaje de cargando
         //Hace el delete
-        deleteProductP(setisLoadingL, productId).then((result) => {
+        deleteProductP(productId).then((result) => {
           getProducts(setProducts, setTableProducts);
           setCurrentPage(1);
+          dispatch({ type: types.setLoadingOff, payload: { isLoading: false } }) //Desactiva el mensaje de cargando
+          swal({
+            text: 'El producto ha sido eliminado',
+            icon: 'success'
+          })
         });
-
-        swal({
-          text: 'El producto ha sido eliminado',
-          icon: 'success'
-        })
       }
     })
   }
@@ -94,10 +95,18 @@ function InventoryPage() {
       description: description,
     };
 
-    insertProductP(setisLoadingL, product).then((result) => {
+    //Cierra modal
+    const modal1 = document.querySelector('#modal1');
+    var instance = M.Modal.getInstance(modal1);
+    instance.close();
+
+    dispatch({ type: types.setLoadingOn, payload: { isLoading: true } }) //Activa el mensaje de cargando
+
+    insertProductP(product).then((result) => {
 
       getProducts(setProducts, setTableProducts);
       setCurrentPage(1);
+      dispatch({ type: types.setLoadingOff, payload: { isLoading: false } }) //Desactiva el mensaje de cargando
 
       swal({
         title: 'Éxito',
@@ -106,10 +115,6 @@ function InventoryPage() {
         buttons: 'Aceptar'
       }).then(result => {
         if (result) {
-          //Cierra modal
-          const modal1 = document.querySelector('#modal1');
-          var instance = M.Modal.getInstance(modal1);
-          instance.close();
           //Limpia variables y reinicia inputs
           cleanVariables();
         }
@@ -146,10 +151,16 @@ function InventoryPage() {
       registration_date: new Date().toISOString().slice(0, 19).replace('T', ' '),
       description: description,
     };
-    updateProductP(setisLoadingL, product).then((result) => {
+    //Cierra modal
+    const modal1 = document.querySelector('#modal1');
+    var instance = M.Modal.getInstance(modal1);
+    instance.close();
+    dispatch({ type: types.setLoadingOn, payload: { isLoading: true } }) //Activa el mensaje de cargando
+
+    updateProductP(product).then((result) => {
       getProducts(setProducts, setTableProducts);
       setCurrentPage(1);
-
+      dispatch({ type: types.setLoadingOff, payload: { isLoading: false } }) //Desactiva el mensaje de cargando
       swal({
         title: 'Éxito',
         text: 'Producto guardado correctamente',
@@ -157,10 +168,6 @@ function InventoryPage() {
         buttons: 'Aceptar'
       }).then(result => {
         if (result) {
-          //Cierra modal
-          const modal1 = document.querySelector('#modal1');
-          var instance = M.Modal.getInstance(modal1);
-          instance.close();
           //Limpia variables y reinicia inputs
           cleanVariables();
         }
@@ -276,7 +283,6 @@ function InventoryPage() {
           <div className="modal-content">
             <div className='center'>
               {isEditing ? <h4>Editar artículo</h4> : isWatching ? <h4>Observar artículo</h4> : <h4>Agregar artículo</h4>}
-              {!isLoadingL ? <div /> : <Loader />}
             </div>
             <div className='row'>
               <div className='input-field col s12 m6'>

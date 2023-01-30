@@ -21,7 +21,6 @@ import { types } from '../store/storeReducer';
 
 function ServicesPage() {
 
-    const [isLoadingL, setisLoadingL] = useState(false); //El cargando local
     const [services, setServices] = useState([]); //Con los datos dinámicos
     const [tableServices, setTableServices] = useState([]); //Con los datos estáticos
     const [search, setSearch] = useState(''); //Contenido del input buscar
@@ -49,16 +48,17 @@ function ServicesPage() {
             buttons: ['No', 'Si']
         }).then(result => {
             if (result) {
+                dispatch({ type: types.setLoadingOn, payload: { isLoading: true } }) //Activa el mensaje de cargando
                 //Hace el delete
-                deleteServiceP(setisLoadingL, serviceId).then((result) => {
+                deleteServiceP(serviceId).then((result) => {
                     getServices(setServices, setTableServices);
                     setCurrentPage(1);
+                    dispatch({ type: types.setLoadingOff, payload: { isLoading: false } }) //Desactiva el mensaje de cargando
+                    swal({
+                        text: 'El servicio ha sido eliminado',
+                        icon: 'success'
+                    })
                 });
-
-                swal({
-                    text: 'El servicio ha sido eliminado',
-                    icon: 'success'
-                })
             }
         })
     }
@@ -88,10 +88,19 @@ function ServicesPage() {
             description: description != '' ? description : 'Sin descripción'
         };
 
-        insertServiceP(setisLoadingL, service).then((result) => {
+        //Cierra modal
+        const modal = document.querySelector('#modal_service');
+        var instance = M.Modal.getInstance(modal);
+        instance.close();
+
+        dispatch({ type: types.setLoadingOn, payload: { isLoading: true } }) //Activa el mensaje de cargando
+
+        insertServiceP(service).then((result) => {
 
             getServices(setServices, setTableServices);
             setCurrentPage(1);
+
+            dispatch({ type: types.setLoadingOff, payload: { isLoading: false } }) //Desactiva el mensaje de cargando
 
             swal({
                 title: 'Éxito',
@@ -100,10 +109,6 @@ function ServicesPage() {
                 buttons: 'Aceptar'
             }).then(result => {
                 if (result) {
-                    //Cierra modal
-                    const modal = document.querySelector('#modal_service');
-                    var instance = M.Modal.getInstance(modal);
-                    instance.close();
                     //Limpia variables y reinicia inputs
                     cleanVariables();
                 }
@@ -135,9 +140,19 @@ function ServicesPage() {
             registration_date: new Date().toISOString().slice(0, 19).replace('T', ' '),
             description: description != '' ? description : 'Sin descripción'
         };
-        updateServiceP(setisLoadingL, service).then((result) => {
+
+        //Cierra modal
+        const modal = document.querySelector('#modal_service');
+        var instance = M.Modal.getInstance(modal);
+        instance.close();
+
+        dispatch({ type: types.setLoadingOn, payload: { isLoading: true } }) //Activa el mensaje de cargando
+
+        updateServiceP(service).then((result) => {
             getServices(setServices, setTableServices);
             setCurrentPage(1);
+
+            dispatch({ type: types.setLoadingOff, payload: { isLoading: false } }) //Desactiva el mensaje de cargando
 
             swal({
                 title: 'Éxito',
@@ -146,10 +161,6 @@ function ServicesPage() {
                 buttons: 'Aceptar'
             }).then(result => {
                 if (result) {
-                    //Cierra modal
-                    const modal = document.querySelector('#modal_service');
-                    var instance = M.Modal.getInstance(modal);
-                    instance.close();
                     //Limpia variables y reinicia inputs
                     cleanVariables();
                 }
@@ -258,7 +269,6 @@ function ServicesPage() {
                     <div className="modal-content">
                         <div className='center'>
                             {isEditing ? <h4>Editar servicio</h4> : isWatching ? <h4>Observar servicio</h4> : <h4>Agregar servicio</h4>}
-                            {!isLoadingL ? <div /> : <Loader />}
                         </div>
                         <div className='row'>
                             <div className='input-field col s12 m6'>

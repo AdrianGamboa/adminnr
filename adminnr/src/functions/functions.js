@@ -41,57 +41,41 @@ const login = async (data) => {
 
 //Products
 
-const getProducts = async (setProducts, setTableProducts) => {    
+const getProducts = async (setProducts, setTableProducts) => {
+    document.body.style.pointerEvents = 'none'; //Desactiva clicks
     await axios.get(Url + 'get_products', axiosConfigAuth)
         .then(response => {
             setProducts(response.data);
             setTableProducts(response.data);
+            document.body.style.pointerEvents = 'all'; //Activa clicks
         })
         .catch(error => { console.log(error); });
 }
 
-const insertProductP = async (setIsLoading, product) => {
-    setIsLoading(true); //Activa el mensaje de cargando
+const insertProductP = async (product) => {
     document.body.style.pointerEvents = 'none'; //Desactiva clicks
-
     await axios.post(Url + 'add_product', product, axiosConfigAuth)
         .then((response) => {
-
-            setIsLoading(false); //Desactiva el mensaje de cargando
             document.body.style.pointerEvents = 'all'; //Activa clicks
-            // console.log(response.data);
-
         }).catch(error => {
             console.error('Hubo un error!', error);
         });
 }
-const updateProductP = async (setIsLoading, product) => {
-    setIsLoading(true); //Activa el mensaje de cargando
+const updateProductP = async (product) => {
     document.body.style.pointerEvents = 'none'; //Desactiva clicks
-
-    await axios.post(Url + 'update_product/'+product.product_id, product, axiosConfigAuth)
+    await axios.post(Url + 'update_product/' + product.product_id, product, axiosConfigAuth)
         .then((response) => {
-
-            setIsLoading(false); //Desactiva el mensaje de cargando
             document.body.style.pointerEvents = 'all'; //Activa clicks
-            // console.log(response.data);
-
         }).catch(error => {
             console.error('Hubo un error!', error);
         });
 }
 
-const deleteProductP = async (setIsLoading, product_id) => {
-    setIsLoading(true); //Activa el mensaje de cargando
+const deleteProductP = async (product_id) => {
     document.body.style.pointerEvents = 'none'; //Desactiva clicks
-
     await axios.delete(Url + 'delete_product/' + product_id, axiosConfigAuth)
         .then((response) => {
-
-            setIsLoading(false); //Desactiva el mensaje de cargando
             document.body.style.pointerEvents = 'all'; //Activa clicks
-            // console.log(response.data);            
-
         }).catch(error => {
             console.error('Hubo un error!', error);
         });
@@ -99,57 +83,41 @@ const deleteProductP = async (setIsLoading, product_id) => {
 
 //Services
 
-const getServices = async (setServices, setTableServices) => {    
+const getServices = async (setServices, setTableServices) => {
+    document.body.style.pointerEvents = 'none'; //Desactiva clicks
     await axios.get(Url + 'get_services', axiosConfigAuth)
         .then(response => {
             setServices(response.data);
             setTableServices(response.data);
+            document.body.style.pointerEvents = 'all'; //Activa clicks
         })
         .catch(error => { console.log(error); });
 }
 
-const insertServiceP = async (setIsLoading, service) => {
-    setIsLoading(true); //Activa el mensaje de cargando
+const insertServiceP = async (service) => {
     document.body.style.pointerEvents = 'none'; //Desactiva clicks
-
     await axios.post(Url + 'add_service', service, axiosConfigAuth)
         .then((response) => {
-
-            setIsLoading(false); //Desactiva el mensaje de cargando
             document.body.style.pointerEvents = 'all'; //Activa clicks
-            // console.log(response.data);
-
         }).catch(error => {
             console.error('Hubo un error!', error);
         });
 }
-const updateServiceP = async (setIsLoading, service) => {
-    setIsLoading(true); //Activa el mensaje de cargando
+const updateServiceP = async (service) => {
     document.body.style.pointerEvents = 'none'; //Desactiva clicks
-
-    await axios.post(Url + 'update_service/'+service.service_id, service, axiosConfigAuth)
+    await axios.post(Url + 'update_service/' + service.service_id, service, axiosConfigAuth)
         .then((response) => {
-
-            setIsLoading(false); //Desactiva el mensaje de cargando
             document.body.style.pointerEvents = 'all'; //Activa clicks
-            // console.log(response.data);
-
         }).catch(error => {
             console.error('Hubo un error!', error);
         });
 }
 
-const deleteServiceP = async (setIsLoading, service_id) => {
-    setIsLoading(true); //Activa el mensaje de cargando
+const deleteServiceP = async (service_id) => {
     document.body.style.pointerEvents = 'none'; //Desactiva clicks
-
     await axios.delete(Url + 'delete_service/' + service_id, axiosConfigAuth)
         .then((response) => {
-
-            setIsLoading(false); //Desactiva el mensaje de cargando
-            document.body.style.pointerEvents = 'all'; //Activa clicks
-            // console.log(response.data);            
-
+            document.body.style.pointerEvents = 'all'; //Activa clicks     
         }).catch(error => {
             console.error('Hubo un error!', error);
         });
@@ -158,15 +126,10 @@ const deleteServiceP = async (setIsLoading, service_id) => {
 //Sells
 
 const insertSell = async (sell) => {
-    // setIsLoading(true); //Activa el mensaje de cargando
     document.body.style.pointerEvents = 'none'; //Desactiva clicks
-
     await axios.post(Url + 'add_sell', sell, axiosConfigAuth)
         .then((response) => {
-
-            // setIsLoading(false); //Desactiva el mensaje de cargando
             document.body.style.pointerEvents = 'all'; //Activa clicks
-            // console.log(response.data);
             return response;
 
         }).catch(error => {
