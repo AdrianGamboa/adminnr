@@ -87,6 +87,11 @@ function SellPage() {
 
             setSubTotalNoDisc(subTotalNoDisc + (item.amount * item.sale_price));
         }
+        else {
+            M.toast({
+                html: type === 1 ? 'El producto ya fue agregado a la venta' : 'El servicio ya fue agregado a la venta'
+            })
+        }
     }
 
     const deleteFromSell = (id) => {
@@ -142,6 +147,8 @@ function SellPage() {
                     //Hace la venta
                     const sell = {
                         total_price: ((subTotalNoDisc - discount) + (subTotalNoDisc - discount) * 0.13).toFixed(2),
+                        subtotal_price: subTotalNoDisc - discount,
+                        tax: ((subTotalNoDisc - discount) * 0.13).toFixed(2),
                         discount: discount,
                         date: new Date().toISOString().slice(0, 19).replace('T', ' '),
                         state: 'Finalizado',
@@ -159,8 +166,10 @@ function SellPage() {
                             buttons: 'Aceptar'
                         }).then(result => {
                             if (result) {
-                                //Limpia variables y reinicia inputs
-                                // cleanVariables();
+                                //Limpia variables
+                                setSubTotalNoDisc(0);
+                                setDiscount(0);
+                                setSellContent([]);
                             }
                         });
 

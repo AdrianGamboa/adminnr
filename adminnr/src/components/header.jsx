@@ -10,7 +10,7 @@ function Header() {
                     <div className="nav-wrapper">
                         <ul className="navbar-list right">
                             <li className="hide-on-med-and-down"><a className="waves-effect waves-block waves-light toggle-fullscreen" href="#!"><i className="material-icons">settings_overscan</i></a></li>
-                            <li ><a className="waves-effect waves-block waves-light profile-button" href="#!" data-target="profile-dropdown"><i className="material-icons">settings</i></a></li>
+                            {/* <li ><a className="waves-effect waves-block waves-light profile-button" href="#!" data-target="profile-dropdown"><i className="material-icons">settings</i></a></li> */}
                         </ul>
                         {/* <!-- settings-dropdown--> */}
                         <ul className="dropdown-content" id="profile-dropdown">

@@ -137,9 +137,57 @@ const insertSell = async (sell) => {
         });
 }
 
+const getSales = async (setSales, setTableSales) => {
+    document.body.style.pointerEvents = 'none'; //Desactiva clicks
+    await axios.get(Url + 'get_sales', axiosConfigAuth)
+        .then(response => {
+            var data = [];
+            response.data.forEach(element => {
+                var item_exists = data.find(obj => {
+                    return obj.id === element.sell_id;
+                });
+
+                if (!item_exists) { //Si no existe
+                    var item = {
+                        id: element.sell_id,
+                        total_price: element.total_price,
+                        subtotal_price: element.subtotal_price,
+                        tax: element.tax,
+                        discount: element.discount,
+                        date: element.date,
+                        state: element.state,
+                        items: [{
+                            sells_description_id: element.sells_description_id,
+                            item_id: element.product_id ? element.product_id : element.service_id,
+                            item_name: element.product_name ? element.product_name : element.service_name,
+                            item_price: element.item_price,
+                            amount: element.amount
+                        }]
+                    }
+
+                    data.push(item);
+                }
+                else {
+                    item_exists.items.push({
+                        sells_description_id: element.sells_description_id,
+                        item_id: element.product_id ? element.product_id : element.service_id,
+                        item_name: element.product_name ? element.product_name : element.service_name,
+                        item_price: element.item_price,
+                        amount: element.amount
+                    });
+                }
+            });
+
+            setSales(data);
+            setTableSales(data);
+            document.body.style.pointerEvents = 'all'; //Activa clicks
+        })
+        .catch(error => { console.log(error); });
+}
+
 export {
     login,
     getProducts, insertProductP, updateProductP, deleteProductP,
     getServices, insertServiceP, updateServiceP, deleteServiceP,
-    insertSell,
+    getSales, insertSell,
 }
