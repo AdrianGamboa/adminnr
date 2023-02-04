@@ -90,13 +90,14 @@ function SalesPage() {
 
                                                         <h5 style={{ textAlign: 'center' }}>Información General</h5>
                                                         <hr className="solid" style={{ width: '100%', border: 0, borderTop: '1px solid #ddd' }}></hr>
-                                                        <p><strong>Código: </strong>{item.id}</p>
+                                                        <p><strong>Código: </strong>{item.id}</p>                                                        
                                                         <p><strong>Impuesto (13%): </strong>₡ {item.tax}</p>
                                                         <p><strong>Descuento: </strong>₡ {item.discount}</p>
                                                         <p><strong>Subtotal: </strong>₡ {item.subtotal_price}</p>
-                                                        <p><strong>Total: </strong>₡ {item.total_price}</p>
+                                                        <p><strong>Total: </strong>₡ {item.total_price}</p>                                                    
                                                         <p><strong>Estado: </strong>{item.state}</p>
                                                         <p><strong>Fecha de realización: </strong>{item.date}</p>
+                                                        <p><strong>Usuario que realizó la venta: </strong>{item.user_name}</p>
                                                         <hr className="solid" style={{ width: '100%', border: 0, borderTop: '1px solid #ddd' }}></hr>
                                                         <h5 style={{ textAlign: 'center' }}>Contenido de la venta</h5>
                                                         <hr className="solid" style={{ width: '100%', border: 0, borderTop: '1px solid #ddd' }}></hr>

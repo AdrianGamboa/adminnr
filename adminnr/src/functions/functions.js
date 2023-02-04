@@ -23,13 +23,36 @@ const login = async (data) => {
         .then((response) => {
             if (response.data.message === 'Authorized') {
                 document.getElementById("main").classList.remove("mainL");
-                localStorage.setItem('user-token', response.data.access_token);
+                localStorage.setItem('user-token', response.data.access_token);                
+                localStorage.setItem('user-data', JSON.stringify(response.data.user));
                 window.location.href = "../home";
             }
             else if (response.data.message === 'Unauthorized') {
                 swal({
                     title: 'Error al iniciar sesión',
                     text: 'Correo o contraseña incorrecto',
+                    icon: 'error',
+                    buttons: 'Aceptar'
+                });
+            }
+        }).catch(error => {
+            console.error('Hubo un error!', error);
+        });
+}
+
+const logout = async () => {
+    const data = {
+        token: localStorage.getItem('user-token')
+    }
+    await axios.post(Url + 'logout', data , {headers:{'Authorization': 'Bearer ' + localStorage.getItem('user-token')}})
+        .then((response) => {
+            if (response.data.status === '200') {                
+                localStorage.clear();         
+                window.location.href = "../login";             
+            }
+            else {
+                swal({
+                    title: 'Error al cerrar sesión',                    
                     icon: 'error',
                     buttons: 'Aceptar'
                 });
@@ -156,6 +179,8 @@ const getSales = async (setSales, setTableSales) => {
                         discount: element.discount,
                         date: element.date,
                         state: element.state,
+                        user_id: element.id,
+                        user_name: element.name + ' ' + element.lastname,                        
                         items: [{
                             sells_description_id: element.sells_description_id,
                             item_id: element.product_id ? element.product_id : element.service_id,
@@ -167,7 +192,7 @@ const getSales = async (setSales, setTableSales) => {
 
                     data.push(item);
                 }
-                else {
+                else { //Si existe, le agrega productos
                     item_exists.items.push({
                         sells_description_id: element.sells_description_id,
                         item_id: element.product_id ? element.product_id : element.service_id,
@@ -186,7 +211,7 @@ const getSales = async (setSales, setTableSales) => {
 }
 
 export {
-    login,
+    login, logout,
     getProducts, insertProductP, updateProductP, deleteProductP,
     getServices, insertServiceP, updateServiceP, deleteServiceP,
     getSales, insertSell,

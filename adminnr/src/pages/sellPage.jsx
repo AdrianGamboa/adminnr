@@ -145,6 +145,7 @@ function SellPage() {
                 if (result) {
                     dispatch({ type: types.setLoadingOn, payload: { isLoading: true } }) //Activa el mensaje de cargando
                     //Hace la venta
+                    const user = JSON.parse(localStorage.getItem('user-data'));
                     const sell = {
                         total_price: ((subTotalNoDisc - discount) + (subTotalNoDisc - discount) * 0.13).toFixed(2),
                         subtotal_price: subTotalNoDisc - discount,
@@ -152,7 +153,7 @@ function SellPage() {
                         discount: discount,
                         date: new Date().toISOString().slice(0, 19).replace('T', ' '),
                         state: 'Finalizado',
-                        users_user_id: 1,
+                        users_user_id: user.id,
                         clients_client_id: 1,
                         sellContent: sellContent
                     };

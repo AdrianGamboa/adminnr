@@ -40,13 +40,6 @@ function LoginPage() {
             dispatch({ type: types.setLoadingOff, payload: { isLoading: false } }) //Desactiva el mensaje de cargando
             document.body.style.pointerEvents = 'all'; //Activa clicks
         });
-
-        // setUser('');
-        // setPwd('');
-        // console.log('HACE LOGIN');
-        // window.location.href="../home";
-        // navigate("/home");
-        // navigate('../home', { replace: true })
     }
 
     return (
@@ -70,7 +63,6 @@ function LoginPage() {
                                                 id="username"
                                                 type="text"
                                                 ref={userRef}
-                                                autoComplete='off'
                                                 onChange={(e) => setUser(e.target.value)}
                                                 value={user}
                                                 required

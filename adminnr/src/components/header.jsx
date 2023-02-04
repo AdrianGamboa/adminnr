@@ -1,6 +1,7 @@
 import React from 'react'
 import logo from './../assets/images/nrlogo.png';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { logout } from '../functions/functions';
 
 function Header() {
     return (
@@ -10,16 +11,16 @@ function Header() {
                     <div className="nav-wrapper">
                         <ul className="navbar-list right">
                             <li className="hide-on-med-and-down"><a className="waves-effect waves-block waves-light toggle-fullscreen" href="#!"><i className="material-icons">settings_overscan</i></a></li>
-                            {/* <li ><a className="waves-effect waves-block waves-light profile-button" href="#!" data-target="profile-dropdown"><i className="material-icons">settings</i></a></li> */}
+                            <li ><a className="waves-effect waves-block waves-light profile-button" href="#!" data-target="profile-dropdown"><i className="material-icons">settings</i></a></li>
                         </ul>
                         {/* <!-- settings-dropdown--> */}
                         <ul className="dropdown-content" id="profile-dropdown">
-                            <li><a className="grey-text text-darken-1" href="user-profile-page.html"><i className="material-icons">person_outline</i> Profile</a></li>
+                            {/* <li><a className="grey-text text-darken-1" href="user-profile-page.html"><i className="material-icons">person_outline</i> Profile</a></li>
                             <li><a className="grey-text text-darken-1" href="app-chat.html"><i className="material-icons">chat_bubble_outline</i> Chat</a></li>
                             <li><a className="grey-text text-darken-1" href="page-faq.html"><i className="material-icons">help_outline</i> Help</a></li>
                             <li className="divider"></li>
-                            <li><a className="grey-text text-darken-1" href="user-lock-screen.html"><i className="material-icons">lock_outline</i> Lock</a></li>
-                            <li><a className="grey-text text-darken-1" href="user-login.html"><i className="material-icons">keyboard_tab</i> Logout</a></li>
+                            <li><a className="grey-text text-darken-1" href="user-lock-screen.html"><i className="material-icons">lock_outline</i> Lock</a></li> */}
+                            <li><a onClick={logout} className="grey-text text-darken-1"><i className="material-icons">keyboard_tab</i>Cerrar sesión</a></li>
                         </ul>
                     </div>
                     <nav className="display-none search-sm">
