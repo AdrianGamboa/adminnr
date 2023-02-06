@@ -171,13 +171,16 @@ const getSales = async (setSales, setTableSales) => {
                 });
 
                 if (!item_exists) { //Si no existe
+                    
+                    let mydate = new Date(element.date);                    
+                    
                     var item = {
                         id: element.sell_id,
                         total_price: element.total_price,
                         subtotal_price: element.subtotal_price,
                         tax: element.tax,
                         discount: element.discount,
-                        date: element.date,
+                        date: mydate.toLocaleDateString(),
                         state: element.state,
                         user_id: element.id,
                         user_name: element.name + ' ' + element.lastname,                        
@@ -186,7 +189,8 @@ const getSales = async (setSales, setTableSales) => {
                             item_id: element.product_id ? element.product_id : element.service_id,
                             item_name: element.product_name ? element.product_name : element.service_name,
                             item_price: element.item_price,
-                            amount: element.amount
+                            amount: element.amount,
+                            purchase_price: element.purchase_price ? element.purchase_price : 0
                         }]
                     }
 
@@ -198,7 +202,8 @@ const getSales = async (setSales, setTableSales) => {
                         item_id: element.product_id ? element.product_id : element.service_id,
                         item_name: element.product_name ? element.product_name : element.service_name,
                         item_price: element.item_price,
-                        amount: element.amount
+                        amount: element.amount,
+                        purchase_price: element.purchase_price ? element.purchase_price : 0
                     });
                 }
             });

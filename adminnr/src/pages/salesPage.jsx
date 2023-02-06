@@ -85,16 +85,16 @@ function SalesPage() {
                                         sales.slice((currentPage - 1) * amountPerPage, (currentPage - 1) * amountPerPage + amountPerPage)
                                             .map(item => (
                                                 <li key={item.id} >
-                                                    <div className="collapsible-header" style={{alignItems:'center', textAlign:'start'}}><i className="material-icons">expand_more</i><p><strong>Código: </strong>{item.id} - <strong>Total Venta:</strong> ₡{item.total_price} - <strong>Fecha:</strong> {item.date}</p></div>
+                                                    <div className="collapsible-header" style={{ alignItems: 'center', textAlign: 'start' }}><i className="material-icons">expand_more</i><p><strong>Código: </strong>{item.id} - <strong>Total Venta:</strong> ₡{item.total_price} - <strong>Fecha:</strong> {item.date}</p></div>
                                                     <div className="collapsible-body" style={{ textAlign: 'start', padding: ' 0px 70px 20px 70px' }}>
 
                                                         <h5 style={{ textAlign: 'center' }}>Información General</h5>
                                                         <hr className="solid" style={{ width: '100%', border: 0, borderTop: '1px solid #ddd' }}></hr>
-                                                        <p><strong>Código: </strong>{item.id}</p>                                                        
+                                                        <p><strong>Código: </strong>{item.id}</p>
                                                         <p><strong>Impuesto (13%): </strong>₡ {item.tax}</p>
                                                         <p><strong>Descuento: </strong>₡ {item.discount}</p>
                                                         <p><strong>Subtotal: </strong>₡ {item.subtotal_price}</p>
-                                                        <p><strong>Total: </strong>₡ {item.total_price}</p>                                                    
+                                                        <p><strong>Total: </strong>₡ {item.total_price}</p>
                                                         <p><strong>Estado: </strong>{item.state}</p>
                                                         <p><strong>Fecha de realización: </strong>{item.date}</p>
                                                         <p><strong>Usuario que realizó la venta: </strong>{item.user_name}</p>
@@ -107,7 +107,14 @@ function SalesPage() {
                                                                     <p><strong>Código: </strong>{itm.item_id}</p>
                                                                     <p><strong>Nombre: </strong>{itm.item_name}</p>
                                                                     <p><strong>Cantidad vendida: </strong>{itm.amount}</p>
-                                                                    <p><strong>Precio unitario: </strong>₡ {itm.item_price}</p>                                                                    
+                                                                    <p><strong>Precio venta (Unitario): </strong>₡ {itm.item_price}</p>                                                                    
+                                                                    {itm.purchase_price
+                                                                        ? <div>
+                                                                            <p><strong>Precio compra (Unitario): </strong>₡ {itm.purchase_price}</p>
+                                                                            <p><strong>Beneficio por venta: </strong>₡ {(itm.item_price - itm.purchase_price).toFixed(2)}</p>
+                                                                            <p><strong>Beneficio total: </strong>₡ {((itm.item_price - itm.purchase_price)*itm.amount).toFixed(2)}</p>
+                                                                        </div>
+                                                                        : <p><strong>Beneficio total: </strong>₡ {(itm.item_price*itm.amount).toFixed(2)}</p>}
                                                                     <hr className="solid" style={{ width: '100%', border: 0, borderTop: '1px solid #ddd' }}></hr>
                                                                 </div>
                                                             ))

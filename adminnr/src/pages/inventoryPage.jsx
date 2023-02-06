@@ -83,44 +83,68 @@ function InventoryPage() {
     setProducts(searchResults);
   }
 
+  const verifyData = () => {
+    if (name !== '' && purchasePrice !== '' && salePrice !== '' && amount !== '') {
+      return true;
+    }
+    else {
+
+      if (name === '') {
+        M.toast({ html: 'Debe digitar el nombre del producto' });
+      }
+      if (purchasePrice === '') {
+        M.toast({ html: 'Debe digitar el precio de compra del producto' });
+      }
+      if (salePrice === '') {
+        M.toast({ html: 'Debe digitar el precio de venta del producto' });
+      }
+      if (amount === '') {
+        M.toast({ html: 'Debe digitar la cantidad de productos' });
+      }
+      return false;
+    }
+  }
+
   const insertProduct = () => {
-    const product = {
-      name: name,
-      purchase_price: purchasePrice,
-      sale_price: salePrice,
-      stock: amount,
-      original_stock: amount,
-      state: 1,
-      registration_date: new Date().toISOString().slice(0, 19).replace('T', ' '),
-      description: description,
-    };
+    if (verifyData()) {
+      const product = {
+        name: name,
+        purchase_price: purchasePrice,
+        sale_price: salePrice,
+        stock: amount,
+        original_stock: amount,
+        state: 1,
+        registration_date: new Date().toISOString().slice(0, 19).replace('T', ' '),
+        description: description != '' ? description : 'Sin descripción'
+      };
 
-    //Cierra modal
-    const modal1 = document.querySelector('#modal1');
-    var instance = M.Modal.getInstance(modal1);
-    instance.close();
+      //Cierra modal
+      const modal1 = document.querySelector('#modal1');
+      var instance = M.Modal.getInstance(modal1);
+      instance.close();
 
-    dispatch({ type: types.setLoadingOn, payload: { isLoading: true } }) //Activa el mensaje de cargando
+      dispatch({ type: types.setLoadingOn, payload: { isLoading: true } }) //Activa el mensaje de cargando
 
-    insertProductP(product).then((result) => {
+      insertProductP(product).then((result) => {
 
-      getProducts(setProducts, setTableProducts);
-      setCurrentPage(1);
-      dispatch({ type: types.setLoadingOff, payload: { isLoading: false } }) //Desactiva el mensaje de cargando
+        getProducts(setProducts, setTableProducts);
+        setCurrentPage(1);
+        dispatch({ type: types.setLoadingOff, payload: { isLoading: false } }) //Desactiva el mensaje de cargando
 
-      swal({
-        title: 'Éxito',
-        text: 'Producto guardado correctamente',
-        icon: 'success',
-        buttons: 'Aceptar'
-      }).then(result => {
-        if (result) {
-          //Limpia variables y reinicia inputs
-          cleanVariables();
-        }
+        swal({
+          title: 'Éxito',
+          text: 'Producto guardado correctamente',
+          icon: 'success',
+          buttons: 'Aceptar'
+        }).then(result => {
+          if (result) {
+            //Limpia variables y reinicia inputs
+            cleanVariables();
+          }
+        });
+
       });
-
-    });
+    }
   }
 
   const selectProduct = (product_id) => {
@@ -136,7 +160,8 @@ function InventoryPage() {
     setSalePrice(product.sale_price);
     setDescription(product.description);
     setOriginal_stock(product.original_stock);
-    setRegistration_date(product.registration_date);
+    let mydate = new Date(product.registration_date);  
+    setRegistration_date(mydate.toLocaleDateString());     
     activeInputs();
   }
   const updateProduct = () => {
@@ -148,8 +173,8 @@ function InventoryPage() {
       stock: amount,
       original_stock: amount,
       state: 1,
-      registration_date: new Date().toISOString().slice(0, 19).replace('T', ' '),
-      description: description,
+      registration_date: new Date().toISOString().slice(0, 19).replace('T', ' '),      
+      description: description != '' ? description : 'Sin descripción'
     };
     //Cierra modal
     const modal1 = document.querySelector('#modal1');

@@ -78,43 +78,59 @@ function ServicesPage() {
         setCurrentPage(1);
         setServices(searchResults);
     }
+    const verifyData = () => {
+        if (name !== '' && price !== '') {
+            return true;
+        }
+        else {
 
+            if (name === '') {
+                M.toast({ html: 'Debe digitar el nombre del servicio' });
+            }
+            if (price === '') {
+                M.toast({ html: 'Debe digitar el precio del servicio' });
+            }
+            return false;
+        }
+    }
     const insertService = () => {
-        const service = {
-            name: name,
-            price: price,
-            state: 1,
-            registration_date: new Date().toISOString().slice(0, 19).replace('T', ' '),
-            description: description != '' ? description : 'Sin descripción'
-        };
+        if (verifyData()) {
+            const service = {
+                name: name,
+                price: price,
+                state: 1,
+                registration_date: new Date().toISOString().slice(0, 19).replace('T', ' '),
+                description: description != '' ? description : 'Sin descripción'
+            };
 
-        //Cierra modal
-        const modal = document.querySelector('#modal_service');
-        var instance = M.Modal.getInstance(modal);
-        instance.close();
+            //Cierra modal
+            const modal = document.querySelector('#modal_service');
+            var instance = M.Modal.getInstance(modal);
+            instance.close();
 
-        dispatch({ type: types.setLoadingOn, payload: { isLoading: true } }) //Activa el mensaje de cargando
+            dispatch({ type: types.setLoadingOn, payload: { isLoading: true } }) //Activa el mensaje de cargando
 
-        insertServiceP(service).then((result) => {
+            insertServiceP(service).then((result) => {
 
-            getServices(setServices, setTableServices);
-            setCurrentPage(1);
+                getServices(setServices, setTableServices);
+                setCurrentPage(1);
 
-            dispatch({ type: types.setLoadingOff, payload: { isLoading: false } }) //Desactiva el mensaje de cargando
+                dispatch({ type: types.setLoadingOff, payload: { isLoading: false } }) //Desactiva el mensaje de cargando
 
-            swal({
-                title: 'Éxito',
-                text: 'Servicio guardado correctamente',
-                icon: 'success',
-                buttons: 'Aceptar'
-            }).then(result => {
-                if (result) {
-                    //Limpia variables y reinicia inputs
-                    cleanVariables();
-                }
+                swal({
+                    title: 'Éxito',
+                    text: 'Servicio guardado correctamente',
+                    icon: 'success',
+                    buttons: 'Aceptar'
+                }).then(result => {
+                    if (result) {
+                        //Limpia variables y reinicia inputs
+                        cleanVariables();
+                    }
+                });
+
             });
-
-        });
+        }
     }
 
     const selectService = (service_id) => {
@@ -127,7 +143,8 @@ function ServicesPage() {
         setName(service.name);
         setPrice(service.price);
         setDescription(service.description);
-        setRegistration_date(service.registration_date);
+        let mydate = new Date(service.registration_date);  
+        setRegistration_date(mydate.toLocaleDateString());                
         activeInputs();
     }
 
